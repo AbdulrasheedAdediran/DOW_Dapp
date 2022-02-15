@@ -1,0 +1,23 @@
+{
+  "name": "DOW_Dapp",
+  "version": "1.0.0",
+  "description": "A decentralised number guessing game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jutivia/DOW_Dapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jutivia/DOW_Dapp/issues"
+  },
+  "homepage": "https://github.com/jutivia/DOW_Dapp#readme",
+  "devDependencies": {
+    "hardhat": "^2.8.4"
+  }
+}
