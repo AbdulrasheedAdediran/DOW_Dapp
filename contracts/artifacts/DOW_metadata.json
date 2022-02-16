@@ -1,0 +1,107 @@
+{
+	"compiler": {
+		"version": "0.8.11+commit.d7f03943"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "generateComputerNumbers",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "guess",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "num1",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "num2",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "num3",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "num4",
+						"type": "uint256"
+					}
+				],
+				"name": "playerNumber",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "startGame",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/DOW.sol": "DOW"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/DOW.sol": {
+			"keccak256": "0xd00a1d89eb509fbf1f7f88f7f8d63e03af180715938d7a632caebfafd9193e97",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://2853c82708d9898be199b39fa7fe221d796aa7416677113f181e01eda9641c32",
+				"dweb:/ipfs/QmdThTe4xTmDgMrByKaZrpjjVJoYBtVESexQBpiYJooFVi"
+			]
+		}
+	},
+	"version": 1
+}
