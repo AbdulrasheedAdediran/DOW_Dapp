@@ -6,50 +6,34 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"name": "generateComputerNumbers",
-				"outputs": [
-					{
-						"internalType": "uint256[]",
-						"name": "",
-						"type": "uint256[]"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "guess",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "num1",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num2",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num3",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num4",
+						"name": "",
 						"type": "uint256"
 					}
 				],
-				"name": "playerNumber",
-				"outputs": [],
+				"name": "computerNumber",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "randomNumber",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -95,11 +79,11 @@
 	},
 	"sources": {
 		"contracts/DOW.sol": {
-			"keccak256": "0xd00a1d89eb509fbf1f7f88f7f8d63e03af180715938d7a632caebfafd9193e97",
+			"keccak256": "0x1d394e0ca755426938248b5d124ef512591aa20669dc7eda43e78c65ec9c3819",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://2853c82708d9898be199b39fa7fe221d796aa7416677113f181e01eda9641c32",
-				"dweb:/ipfs/QmdThTe4xTmDgMrByKaZrpjjVJoYBtVESexQBpiYJooFVi"
+				"bzz-raw://2ab5a4b4a843b9254332e88ab22f64bba292a4326d94be94e86af01edd6dc8f1",
+				"dweb:/ipfs/QmY23dwu9WMay8q56KZuaw6UREdh74xnRjsf3JyYisXZKd"
 			]
 		}
 	},

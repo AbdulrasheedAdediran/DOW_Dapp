@@ -20,14 +20,51 @@ contract DOW {
 //  Hard     (High liklihood of computer guessing right)
 //
 
-uint256[] computerNumber;
+uint[4] public computerNumber;
+uint[] playerNumber;
+uint omega;
 
-function randModulus () internal view returns(uint){
+
+function randomNumber () public returns(uint){
     uint mod = 10;
-   return uint(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender))) % mod;
-    
+    omega += 1 ;
+    return uint(keccak256(abi.encodePacked(block.timestamp, omega, msg.sender))) % mod;
 }
 
+function emptyOurStoreArray() private {
+    while(playerNumber.length>0){
+      playerNumber.pop();
+    }
+}
+
+function startGame() public returns(uint[] memory){
+    emptyOurStoreArray();
+
+    while (playerNumber.length < 4){
+      uint _rand = randomNumber();
+      bool matches = false;
+      for(uint i=0; i < playerNumber.length; i++){
+        if(playerNumber[i]==_rand){
+          matches = true;
+          break;
+        }
+      }
+      if (!matches){
+        playerNumber.push(_rand);
+      }
+    }
+    return playerNumber;  
+}
+
+// function pushPush() public returns(uint[][] memory){
+//   uint[][] memory results = new uint[][](10);
+//   for (uint i; i < 10; i++){
+//     results[i] = startGame();
+//   }
+//   return results;
+// }
+}
+/*
 function startGame () public returns(uint[] memory){
     while (computerNumber.length < 4) {
     uint256 filter = 0;
@@ -43,7 +80,7 @@ function startGame () public returns(uint[] memory){
   }
  return computerNumber;
 }
-
+*/
 
 // function generateComputerNumbers() public returns(uint[] memory){
 
@@ -55,4 +92,3 @@ function startGame () public returns(uint[] memory){
 // function guess() public{
 
 // }
-}
