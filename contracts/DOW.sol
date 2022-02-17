@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 contract DOW {
 
 
-uint[] computerNumber;
+uint[] public computerNumber;
 uint[] playerNumber;
 uint omega;
 
@@ -14,20 +14,20 @@ function randomNumber () public returns(uint){
     return uint(keccak256(abi.encodePacked(block.timestamp, omega, msg.sender))) % mod;
 }
 
-function emptyOurStoreArray() private {
-    while(computerNumber.length>0){
+function clearArray() private {
+    while(computerNumber.length > 0){
       computerNumber.pop();
     }
 }
 
 function startGame() public returns(uint[] memory){
-    emptyOurStoreArray();
+    clearArray();
 
     while (computerNumber.length < 4){
       uint _rand = randomNumber();
       bool matches = false;
-      for(uint i=0; i < computerNumber.length; i++){
-        if(computerNumber[i]==_rand){
+      for(uint i = 0; i < computerNumber.length; i++){
+        if(computerNumber[i] == _rand){
           matches = true;
           break;
         }
