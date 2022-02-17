@@ -1,55 +1,39 @@
 {
 	"compiler": {
-		"version": "0.8.11+commit.d7f03943"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"name": "generateComputerNumbers",
-				"outputs": [
-					{
-						"internalType": "uint256[]",
-						"name": "",
-						"type": "uint256[]"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "guess",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "num1",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num2",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num3",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "num4",
+						"name": "",
 						"type": "uint256"
 					}
 				],
-				"name": "playerNumber",
-				"outputs": [],
+				"name": "computerNumber",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "randomNumber",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -95,11 +79,11 @@
 	},
 	"sources": {
 		"contracts/DOW.sol": {
-			"keccak256": "0xd00a1d89eb509fbf1f7f88f7f8d63e03af180715938d7a632caebfafd9193e97",
+			"keccak256": "0x7a0d1c3d0bc31b3c1129bb9de634342bdacb9ba7d61efdb8c7ad4bcbe68341a6",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://2853c82708d9898be199b39fa7fe221d796aa7416677113f181e01eda9641c32",
-				"dweb:/ipfs/QmdThTe4xTmDgMrByKaZrpjjVJoYBtVESexQBpiYJooFVi"
+				"bzz-raw://d436e42e5e89f4f291b8831fd1572ae6c8504a21000d6dd8a8e997963031abe8",
+				"dweb:/ipfs/QmW1GHyBJyTTr5aDLEs8xq9GUDkZEg3VoMy58fojYv8yZV"
 			]
 		}
 	},
