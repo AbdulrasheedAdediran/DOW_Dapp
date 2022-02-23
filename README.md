@@ -25,4 +25,6 @@ npx hardhat compile
 // Easy (Less likelihood of computer guessing right)
 // Medium (Moderate likelihood of computer guessing right)
 // Hard (High likelihood of computer guessing right)
-//
+
+// A feature that allows players to query specific trials to make informed decisions about next guess
+// A feature that makes game two-way (player guess, computer guess - first to get all sequence right within trials allowed wins)
