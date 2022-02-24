@@ -16,9 +16,9 @@ contract DOW {
 
   uint tries;
   uint omega;
-  uint[] public computerNumber;
+  uint[] computerNumber;
   uint[] playerNumber;
-  mapping(uint=> uint[4]) trials;
+  mapping(uint=> uint[]) trials;
   mapping (uint => uint) computerIndexToNumber;
 
 
@@ -71,18 +71,36 @@ contract DOW {
     _;
   }
 
-  // function playGame (uint[] memory numArr) view checkPlayerNumbers(numArr) public {
-  //   // check if each number exists in computer sequence => status = wounded
-  //   // if index of guess number == index of computer sequence = dead
-  //   // comparing computer number to player number
-  //   for(uint i = 0; i <  numArr.length; i++){
-  //       uint currentInput = numArr[i];
-  //       for(uint j = 0; j < computerNumber.length; j++){
-  //         if(i != j && currentInput == computerNumber[j]){
-  //           // return false;
-  //         }
-  //       }
-  //     }
-  // }
+   function playGame (uint[] memory numArr)  external returns (uint wounded, uint dead, string memory message) {
+      tries++;
+      (wounded, dead) = confirmGuess (numArr);
+      trials[tries] = numArr;
+      if (tries >8 || dead == 4) startGame();
+      require (tries <= 8, "You Lost already");
+      message = winLose(dead);
+  }
 
+  function winLose(uint dead) view internal returns(string memory message){
+    if(tries <= 4 && dead == 4) message = "Genius! All Dead!";
+    if((tries > 4 && tries <8) && dead == 4) message = "Took you so long! All Dead!";
+    if(tries ==6 && dead !=4) message = "You have 2 trials left";
+    if(tries ==7 && dead !=4) message = "This is your final trial";
+    if(tries ==8 && dead !=4) message = "You Lost!!!";
+  }
+
+  function confirmGuess (uint[] memory numArr) view internal  returns (uint wounded, uint dead){
+    // check if each number exists in computer sequence => status = wounded
+    // if index of guess number == index of computer sequence = dead
+    // comparing computer number to player number
+    for(uint i = 0; i <  numArr.length; i++){
+        uint currentInput = numArr[i];
+        for(uint j = 0; j < computerNumber.length; j++){
+          if(i == j && currentInput == computerNumber[j]){
+             dead++;
+          } else if( i != j && currentInput == computerNumber[j]) {
+            wounded++;
+          }
+        }
+      }
+  }
 }
