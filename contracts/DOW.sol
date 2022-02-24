@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
+
 pragma solidity ^0.8.0;
 // Player vs computer
 // Done => Player picks 4 unique random numbers 0 - 9 
@@ -71,18 +72,18 @@ contract DOW {
     _;
   }
 
-  // function playGame (uint[] memory numArr) view checkPlayerNumbers(numArr) public {
-  //   // check if each number exists in computer sequence => status = wounded
-  //   // if index of guess number == index of computer sequence = dead
-  //   // comparing computer number to player number
-  //   for(uint i = 0; i <  numArr.length; i++){
-  //       uint currentInput = numArr[i];
-  //       for(uint j = 0; j < computerNumber.length; j++){
-  //         if(i != j && currentInput == computerNumber[j]){
-  //           // return false;
-  //         }
-  //       }
-  //     }
-  // }
+  function playGame (uint[] memory numArr) view checkPlayerNumbers(numArr) public {
+    // check if each number exists in computer sequence => status = wounded
+    // if index of guess number == index of computer sequence = dead
+    // comparing computer number to player number
+    for(uint i = 0; i <  numArr.length; i++){
+        uint currentInput = numArr[i];
+        for(uint j = 0; j < computerNumber.length; j++){
+          if(i != j && currentInput == computerNumber[j]){
+            // return false;
+          }
+        }
+      }
+  }
 
 }
