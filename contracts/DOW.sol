@@ -7,20 +7,26 @@ pragma solidity ^0.8.0;
 // Done => Computer picks 4 unique random numbers 0 - 9 (automatically generated)
 // Done => Numbers selected by comp will be stored in an array in the storage
 // Numbers selected by player will be stored in an array in the memory
-// When player guesses unique sequence of numbers, check index of opponent's selected numbers for matches
-// If number(s) from sequence of guessed numbers match(es) opponent's selected numbers by index, return 'dead' indicator
-// Else if sequence of guessed numbers is present in opponent's selected numbers but does not match index, return 'wounded' indicator
-// Each player should only be allowed a maximum of 7 guesses per game
-// Warning message when player has 3 guesses left
-// Warning message when player has 1 guess left
+// Done => When player guesses unique sequence of numbers, check index of opponent's selected numbers for matches
+// Done => If number(s) from sequence of guessed numbers match(es) opponent's selected numbers by index, return 'dead' indicator
+// Done => Else if sequence of guessed numbers is present in opponent's selected numbers but does not match index, return 'wounded' indicator
+// Done => Each player should only be allowed a maximum of 8 guesses per game
+// Done => Warning message when player has 3 guesses left
+// Done => Warning message when player has 1 guess left
+
+
 contract DOW {
 
   uint tries;
   uint omega;
-  uint[] public computerNumber;
+  uint[] computerNumber;
   uint[] playerNumber;
-  mapping(uint=> uint[4]) trials;
+  mapping(uint=> uint[]) trials;
   mapping (uint => uint) computerIndexToNumber;
+  event WonOrLost (uint[] computerNumber, string message);
+  event Warnings (string message);
+  event PlayerGuesses (uint tries, uint dead, uint wounded);
+
 
 
 
@@ -72,18 +78,51 @@ contract DOW {
     _;
   }
 
-  function playGame (uint[] memory numArr) view checkPlayerNumbers(numArr) public {
+   function playGame (uint[] memory numArr)  external checkPlayerNumbers(numArr) returns (uint wounded, uint dead, string memory message) {
+      tries++;
+      (wounded, dead) = confirmGuess (numArr);
+      trials[tries] = numArr;
+      if (tries >8 || dead == 4) startGame();
+      require (tries <= 8, "You Lost already");
+      message = winLose(dead);
+      emit PlayerGuesses(tries, dead, wounded);
+  }
+
+  function winLose(uint dead) internal returns(string memory message){
+    if(tries <= 4 && dead == 4) {
+      message = "Genius! All Dead!";
+      emit  WonOrLost (computerNumber, message);
+    }
+    if((tries > 4 && tries <8) && dead == 4) {
+      message = "Took you so long! All Dead!";
+      emit  WonOrLost (computerNumber, message);
+      }
+    if(tries ==6 && dead !=4) {
+      message = "You have 2 trials left";
+      emit Warnings (message);
+    }
+    if(tries ==7 && dead !=4) {
+      message = "This is your final trial";
+       emit Warnings (message);
+    }
+    if(tries ==8 && dead !=4){
+       message = "You Lost!!!";
+    }
+  }
+
+  function confirmGuess (uint[] memory numArr) view internal  returns (uint wounded, uint dead){
     // check if each number exists in computer sequence => status = wounded
     // if index of guess number == index of computer sequence = dead
     // comparing computer number to player number
     for(uint i = 0; i <  numArr.length; i++){
         uint currentInput = numArr[i];
         for(uint j = 0; j < computerNumber.length; j++){
-          if(i != j && currentInput == computerNumber[j]){
-            // return false;
+          if(i == j && currentInput == computerNumber[j]){
+             dead++;
+          } else if( i != j && currentInput == computerNumber[j]) {
+            wounded++;
           }
         }
       }
   }
-
 }
