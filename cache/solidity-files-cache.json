@@ -1,12 +1,12 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/user/Documents/DOW_Dapp/contracts/DOW.sol": {
-      "lastModificationDate": 1645106807177,
-      "contentHash": "6adcdf0b1ca06b9867281ddccdf69805",
+    "/Users/user/Desktop/DOW_Dapp/contracts/DOW.sol": {
+      "lastModificationDate": 1648746223124,
+      "contentHash": "eeb28f212467c3ac1bf927ae412e51c8",
       "sourceName": "contracts/DOW.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.4",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -32,9 +32,40 @@
       "versionPragmas": [
         "^0.8.0"
       ],
-      "artifacts": [
-        "DOW"
-      ]
+      "artifacts": []
+    },
+    "/Users/user/Desktop/DOW_Dapp/contracts/signers.sol": {
+      "lastModificationDate": 1648746193419,
+      "contentHash": "f1e2c73db9945c6c659c1d5085f9e4b4",
+      "sourceName": "contracts/signers.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": []
     }
   }
 }

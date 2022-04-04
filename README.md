@@ -1,30 +1,46 @@
-# DOW_Dapp
+# Advanced Sample Hardhat Project
 
-A decentralised number guessing game
-npm init -y
-npm install -D hardhat
-npx hardhat
-Create an empty hardhat config
-npm install --save-dev @nomiclabs/hardhat-waffle @nomiclabs/hardhat-ethers ethereum-waffle chai ethers solidity-coverage
+This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+
+The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+
+Try running some of the following tasks:
+
+```shell
+npx hardhat accounts
 npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+npx hardhat help
+REPORT_GAS=true npx hardhat test
+npx hardhat coverage
+npx hardhat run scripts/deploy.ts
+TS_NODE_FILES=true npx ts-node scripts/deploy.ts
+npx eslint '**/*.{js,ts}'
+npx eslint '**/*.{js,ts}' --fix
+npx prettier '**/*.{json,sol,md}' --check
+npx prettier '**/*.{json,sol,md}' --write
+npx solhint 'contracts/**/*.sol'
+npx solhint 'contracts/**/*.sol' --fix
+```
 
-// Player vs computer
-// Player picks 4 unique random numbers 0 - 9
-// Validate uniqueness of player's numbers: return "Numbers must be unique" if numbers are not unique
-// Computer picks 4 unique random numbers 0 - 9 (automatically generated)
-// Numbers selected by comp will be stored in an array in the storage
-// Numbers selected by player will be stored in an array in the memory
-// When player guesses unique sequence of numbers, check index of opponent's selected numbers for matches
-// If number(s) from sequence of guessed numbers match(es) opponent's selected numbers by index, return 'dead' indicator
-// Else if sequence of guessed numbers is present in opponent's selected numbers but does not match index, return 'wounded' indicator
-// Each player should only be allowed a maximum of 7 guesses per game
-// Warning message when player has 3 guesses left
-// Warning message when player has 1 guess left
+# Etherscan verification
 
-// 3 difficulty levels:
-// Easy (Less likelihood of computer guessing right)
-// Medium (Moderate likelihood of computer guessing right)
-// Hard (High likelihood of computer guessing right)
+To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
 
-// A feature that allows players to query specific trials to make informed decisions about next guess
-// A feature that makes game two-way (player guess, computer guess - first to get all sequence right within trials allowed wins)
+In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+
+```shell
+hardhat run --network ropsten scripts/deploy.ts
+```
+
+Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+
+```shell
+npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+```
+
+# Performance optimizations
+
+For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
