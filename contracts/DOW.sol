@@ -25,9 +25,10 @@ contract DOW is ERC20{
   bool setVRF;
   VRFv2Consumer vrf;
   uint[] public compNum;
+  address[] players;
 //   address constant VRFaddr = 0x26338299bef45aaa55b9daecab0d0abcb91324fd;
   mapping(address=> Player) public PlayerStruct;
-  mapping(uint => mapping(uint=> bool)) chosenNum;
+  mapping(address => bool) playerAdded;
   mapping(address =>bool) claimTokens;
   mapping(address => mapping(uint=> bool)) playerPlaying;
   // --------------------------------Events --------------------------------
@@ -53,9 +54,15 @@ contract DOW is ERC20{
     uint32 sixthTrial;
     uint32 seventhTrial;
     uint8 currentTrialNumber;
-    uint16 currentStreak;
+    uint16 gamesWon;
+    uint currentStreak;
   }
 
+  struct PlayerScore {
+    address playerAddress;
+    uint96 wins;
+  }
+    
     // --------------------------------Constructor--------------------------------
     constructor(address VRFaddress) ERC20("Dead or Wounded", "DOW"){
         owner = msg.sender;
@@ -65,7 +72,7 @@ contract DOW is ERC20{
     // --------------------------------Functions--------------------------------
 
     // --------------------------------VRF Method--------------------------------
-  function generateRandomNumber () internal {
+  function generateRandomNumber () public {
           vrf.requestRandomWords();
            randNum = vrf.s_requestId();
     }
@@ -77,7 +84,6 @@ contract DOW is ERC20{
   // 51950834380448387426091044641482712752411538615582012744600401607787590818280
 
   function vrfNumbers() internal {
-    generateRandomNumber();
     uint _rand = randNum >> randomNumber();
               bool matches = false;
         for(uint i = 0; i < compNum.length; i++){
@@ -127,20 +133,22 @@ contract DOW is ERC20{
   }
 
   function startGame() external returns (bytes32[] memory playerNumbers){
+    if(!playerAdded[msg.sender]) {
+      playerAdded[msg.sender] = true;
+      players.push(msg.sender);
+    }
     Player storage o = PlayerStruct[msg.sender];
     if(balanceOf(msg.sender) < 5000000000000000000) revert InsufficientTokens();
     _transfer(msg.sender, address(this), 5000000000000000000);
     playerNumbers = new bytes32[](4);
       while (compNum.length < 4){
-        if (setVRF) {
-          vrfNumbers();
-        }
+        if (setVRF) vrfNumbers();
         else nonVRFNumbers();
       }
-    playerNumbers[0] = keccak256(abi.encodePacked("D",uint256(compNum[0]),"W"));
-    playerNumbers[1] = keccak256(abi.encodePacked("D",uint256(compNum[1]),"W"));
-    playerNumbers[2] = keccak256(abi.encodePacked("D",uint256(compNum[2]),"W"));
-    playerNumbers[3] = keccak256(abi.encodePacked("D",uint256(compNum[3]),"W")); 
+    playerNumbers[0] = keccak256(abi.encodePacked('D',uint256(compNum[0]),'W'));
+    playerNumbers[1] = keccak256(abi.encodePacked('D',uint256(compNum[1]),'W'));
+    playerNumbers[2] = keccak256(abi.encodePacked('D',uint256(compNum[2]),'W'));
+    playerNumbers[3] = keccak256(abi.encodePacked('D',uint256(compNum[3]),'W')); 
     clearArray();
     playerPlaying[msg.sender][o.currentStreak] = true;
     emit PlayerNumbers(playerNumbers);
@@ -154,21 +162,27 @@ contract DOW is ERC20{
       _mint(msg.sender, 20000000000000000000);
     } else if (trial == 2) {
       o.secondTrial++;
+      o.gamesWon++;
       _mint(msg.sender, 20000000000000000000);
     } else if (trial == 3) {
       o.thirdTrial++;
+      o.gamesWon++;
       _mint(msg.sender, 20000000000000000000);
     } else if (trial == 4) {
       o.fourthtrial++;
+      o.gamesWon++;
       _mint(msg.sender, 12000000000000000000);
     } else if (trial == 5) {
       o.fifthTrial++;
+      o.gamesWon++;
       _mint(msg.sender, 12000000000000000000);
     } else if (trial == 6) {
       o.sixthTrial++;
+      o.gamesWon++;
       _mint(msg.sender, 7000000000000000000);
     } else if (trial == 7) {
       o.seventhTrial++;
+      o.gamesWon++;
       _mint(msg.sender, 7000000000000000000);
     }
     o.currentTrialNumber = trial;
@@ -180,7 +194,16 @@ contract DOW is ERC20{
     return o;
   }
 
-    function claimFreeTokens() external {
+  function LeaderBoard () external view returns (PlayerScore[] memory leaderBoard) {
+    leaderBoard = new PlayerScore[](players.length);
+    for (uint i = 0; i < players.length; i++) {
+      Player storage o = PlayerStruct[players[i]];
+      leaderBoard[i].playerAddress = players[i];
+      leaderBoard[i].wins = o.gamesWon;
+    }
+  }
+
+  function claimFreeTokens() external {
     if(claimTokens[msg.sender]) revert AlreadyClaimedFreeTokens();
      claimTokens[msg.sender] = true;
     _mint(msg.sender, 10000000000000000000);
@@ -250,17 +273,16 @@ contract DOW is ERC20{
   //   }
   // }
 
-  // function confirmGuess (uint[] memory numArr) view external  returns (uint wounded, uint dead){
-  //   // check if each number exists in computer sequence => status = wounded
-  //   // if index of guess number == index of computer sequence = dead
-  //   // comparing computer number to player number
-  //   Player storage P = PlayerStruct[msg.sender];
-  //   for(uint i = 0; i <  numArr.length; i++){
-  //       uint currentInput = numArr[i];
+  // function confirmGuess (uint[] memory playerNumber, bytes32[] memory computerNumber) pure external  returns (uint wounded, uint dead){
+    // check if each number exists in computer sequence => status = wounded
+    // if index of guess number == index of computer sequence = dead
+    // comparing computer number to player number
+  //   for(uint i = 0; i <  playerNumber.length; i++){
+  //       uint currentInput = playerNumber[i];
   //       for(uint j = 0; j < computerNumber.length; j++){
-  //         if(i == j && currentInput == P.computerNumber[j]){
+  //         if(i == j && keccak256(abi.encodePacked('D',uint256(currentInput),'W')) == computerNumber[j]){
   //            dead++;
-  //         } else if( i != j && currentInput == P.computerNumber[j]) {
+  //         } else if( i != j && keccak256(abi.encodePacked('D',uint256(currentInput),'W')) == computerNumber[j]) {
   //           wounded++;
   //         }
   //       }
