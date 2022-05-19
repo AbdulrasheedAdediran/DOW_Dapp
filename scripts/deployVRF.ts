@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 async function main() {
   const VRF = await ethers.getContractAt(
     "VRFv2Consumer",
-    "0x43067A8597114952aC7Ec029bF5Fb7EA5438205e"
+    "0x73fDB6c756fEF146972eeB277373b1638cc6d215"
   );
   // const VRF = await Greeter.deploy();
 

@@ -21,14 +21,23 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface DOWInterface extends ethers.utils.Interface {
   functions: {
+    "LeaderBoard()": FunctionFragment;
+    "PlayerStruct(address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "checkStreak()": FunctionFragment;
+    "checkTrials(uint8)": FunctionFragment;
+    "claimFreeTokens()": FunctionFragment;
+    "compNum(uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
+    "generateRandomNumber()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
-    "playGame(uint256[])": FunctionFragment;
+    "randNum()": FunctionFragment;
+    "setTNotoUseVRF()": FunctionFragment;
+    "setToUseVRF()": FunctionFragment;
     "startGame()": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -38,6 +47,14 @@ interface DOWInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(
+    functionFragment: "LeaderBoard",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "PlayerStruct",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "allowance",
     values: [string, string]
   ): string;
@@ -46,19 +63,44 @@ interface DOWInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "checkStreak",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "checkTrials",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimFreeTokens",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "compNum",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "generateRandomNumber",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "randNum", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "playGame",
-    values: [BigNumberish[]]
+    functionFragment: "setTNotoUseVRF",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setToUseVRF",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "startGame", values?: undefined): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
@@ -79,12 +121,37 @@ interface DOWInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "LeaderBoard",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "PlayerStruct",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "checkStreak",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "checkTrials",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimFreeTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "compNum", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "generateRandomNumber",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -92,7 +159,15 @@ interface DOWInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "playGame", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "randNum", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setTNotoUseVRF",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setToUseVRF",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "startGame", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
@@ -111,17 +186,15 @@ interface DOWInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "PlayerGuesses(uint256,uint256,uint256)": EventFragment;
+    "PlayerNumbers(bytes32[])": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "Warnings(string)": EventFragment;
-    "WonOrLost(string)": EventFragment;
+    "compNumber(uint256[])": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PlayerGuesses"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PlayerNumbers"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Warnings"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WonOrLost"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "compNumber"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
@@ -132,21 +205,15 @@ export type ApprovalEvent = TypedEvent<
   }
 >;
 
-export type PlayerGuessesEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber] & {
-    tries: BigNumber;
-    dead: BigNumber;
-    wounded: BigNumber;
-  }
->;
+export type PlayerNumbersEvent = TypedEvent<[string[]] & { compNum: string[] }>;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
 >;
 
-export type WarningsEvent = TypedEvent<[string] & { message: string }>;
-
-export type WonOrLostEvent = TypedEvent<[string] & { message: string }>;
+export type compNumberEvent = TypedEvent<
+  [BigNumber[]] & { compNumber: BigNumber[] }
+>;
 
 export class DOW extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -192,6 +259,30 @@ export class DOW extends BaseContract {
   interface: DOWInterface;
 
   functions: {
+    LeaderBoard(
+      overrides?: CallOverrides
+    ): Promise<
+      [([string, BigNumber] & { playerAddress: string; wins: BigNumber })[]] & {
+        leaderBoard: ([string, BigNumber] & {
+          playerAddress: string;
+          wins: BigNumber;
+        })[];
+      }
+    >;
+
+    PlayerStruct(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+        gamesPlayed: BigNumber;
+        gamesLost: BigNumber;
+        currentWinStreak: BigNumber;
+        maxWinStreak: BigNumber;
+        gamesWon: BigNumber;
+      }
+    >;
+
     allowance(
       owner: string,
       spender: string,
@@ -206,11 +297,43 @@ export class DOW extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    checkStreak(
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+          gamesPlayed: BigNumber;
+          gamesLost: BigNumber;
+          currentWinStreak: BigNumber;
+          maxWinStreak: BigNumber;
+          gamesWon: BigNumber;
+        }
+      ]
+    >;
+
+    checkTrials(
+      trial: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    claimFreeTokens(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    compNum(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     decreaseAllowance(
       spender: string,
       subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    generateRandomNumber(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -222,8 +345,13 @@ export class DOW extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    playGame(
-      numArr: BigNumberish[],
+    randNum(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    setTNotoUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setToUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -254,6 +382,25 @@ export class DOW extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  LeaderBoard(
+    overrides?: CallOverrides
+  ): Promise<
+    ([string, BigNumber] & { playerAddress: string; wins: BigNumber })[]
+  >;
+
+  PlayerStruct(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+      gamesPlayed: BigNumber;
+      gamesLost: BigNumber;
+      currentWinStreak: BigNumber;
+      maxWinStreak: BigNumber;
+      gamesWon: BigNumber;
+    }
+  >;
+
   allowance(
     owner: string,
     spender: string,
@@ -268,11 +415,38 @@ export class DOW extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  checkStreak(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+      gamesPlayed: BigNumber;
+      gamesLost: BigNumber;
+      currentWinStreak: BigNumber;
+      maxWinStreak: BigNumber;
+      gamesWon: BigNumber;
+    }
+  >;
+
+  checkTrials(
+    trial: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  claimFreeTokens(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  compNum(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
   decimals(overrides?: CallOverrides): Promise<number>;
 
   decreaseAllowance(
     spender: string,
     subtractedValue: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  generateRandomNumber(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -284,8 +458,13 @@ export class DOW extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  playGame(
-    numArr: BigNumberish[],
+  randNum(overrides?: CallOverrides): Promise<BigNumber>;
+
+  setTNotoUseVRF(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setToUseVRF(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -316,6 +495,25 @@ export class DOW extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    LeaderBoard(
+      overrides?: CallOverrides
+    ): Promise<
+      ([string, BigNumber] & { playerAddress: string; wins: BigNumber })[]
+    >;
+
+    PlayerStruct(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+        gamesPlayed: BigNumber;
+        gamesLost: BigNumber;
+        currentWinStreak: BigNumber;
+        maxWinStreak: BigNumber;
+        gamesWon: BigNumber;
+      }
+    >;
+
     allowance(
       owner: string,
       spender: string,
@@ -330,6 +528,24 @@ export class DOW extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    checkStreak(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+        gamesPlayed: BigNumber;
+        gamesLost: BigNumber;
+        currentWinStreak: BigNumber;
+        maxWinStreak: BigNumber;
+        gamesWon: BigNumber;
+      }
+    >;
+
+    checkTrials(trial: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    claimFreeTokens(overrides?: CallOverrides): Promise<void>;
+
+    compNum(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<number>;
 
     decreaseAllowance(
@@ -337,6 +553,8 @@ export class DOW extends BaseContract {
       subtractedValue: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    generateRandomNumber(overrides?: CallOverrides): Promise<void>;
 
     increaseAllowance(
       spender: string,
@@ -346,18 +564,13 @@ export class DOW extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    playGame(
-      numArr: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, string] & {
-        wounded: BigNumber;
-        dead: BigNumber;
-        message: string;
-      }
-    >;
+    randNum(overrides?: CallOverrides): Promise<BigNumber>;
 
-    startGame(overrides?: CallOverrides): Promise<void>;
+    setTNotoUseVRF(overrides?: CallOverrides): Promise<void>;
+
+    setToUseVRF(overrides?: CallOverrides): Promise<void>;
+
+    startGame(overrides?: CallOverrides): Promise<string[]>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -401,23 +614,13 @@ export class DOW extends BaseContract {
       { owner: string; spender: string; value: BigNumber }
     >;
 
-    "PlayerGuesses(uint256,uint256,uint256)"(
-      tries?: null,
-      dead?: null,
-      wounded?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { tries: BigNumber; dead: BigNumber; wounded: BigNumber }
-    >;
+    "PlayerNumbers(bytes32[])"(
+      compNum?: null
+    ): TypedEventFilter<[string[]], { compNum: string[] }>;
 
-    PlayerGuesses(
-      tries?: null,
-      dead?: null,
-      wounded?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { tries: BigNumber; dead: BigNumber; wounded: BigNumber }
-    >;
+    PlayerNumbers(
+      compNum?: null
+    ): TypedEventFilter<[string[]], { compNum: string[] }>;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
@@ -437,20 +640,20 @@ export class DOW extends BaseContract {
       { from: string; to: string; value: BigNumber }
     >;
 
-    "Warnings(string)"(
-      message?: null
-    ): TypedEventFilter<[string], { message: string }>;
+    "compNumber(uint256[])"(
+      compNumber?: null
+    ): TypedEventFilter<[BigNumber[]], { compNumber: BigNumber[] }>;
 
-    Warnings(message?: null): TypedEventFilter<[string], { message: string }>;
-
-    "WonOrLost(string)"(
-      message?: null
-    ): TypedEventFilter<[string], { message: string }>;
-
-    WonOrLost(message?: null): TypedEventFilter<[string], { message: string }>;
+    compNumber(
+      compNumber?: null
+    ): TypedEventFilter<[BigNumber[]], { compNumber: BigNumber[] }>;
   };
 
   estimateGas: {
+    LeaderBoard(overrides?: CallOverrides): Promise<BigNumber>;
+
+    PlayerStruct(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     allowance(
       owner: string,
       spender: string,
@@ -465,11 +668,28 @@ export class DOW extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    checkStreak(overrides?: CallOverrides): Promise<BigNumber>;
+
+    checkTrials(
+      trial: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    claimFreeTokens(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    compNum(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     decreaseAllowance(
       spender: string,
       subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    generateRandomNumber(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -481,8 +701,13 @@ export class DOW extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    playGame(
-      numArr: BigNumberish[],
+    randNum(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setTNotoUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setToUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -514,6 +739,13 @@ export class DOW extends BaseContract {
   };
 
   populateTransaction: {
+    LeaderBoard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    PlayerStruct(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     allowance(
       owner: string,
       spender: string,
@@ -531,11 +763,31 @@ export class DOW extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    checkStreak(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    checkTrials(
+      trial: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    claimFreeTokens(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    compNum(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decreaseAllowance(
       spender: string,
       subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    generateRandomNumber(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -547,8 +799,13 @@ export class DOW extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    playGame(
-      numArr: BigNumberish[],
+    randNum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setTNotoUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setToUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

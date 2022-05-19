@@ -34,12 +34,31 @@ const config: HardhatUserConfig = {
       url: process.env.MUMBAI_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      gas: 4700000,
     },
     rinkeby: {
       url: process.env.RINKEBY_URL,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       gas: 150000,
+    },
+    meter: {
+      url: process.env.METER_URL,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      gas: 4700000,
+    },
+    boba: {
+      url: process.env.BOBA_URL,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      gas: 4700000,
+    },
+    godwoken: {
+      url: process.env.GODWOKEN_URL,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      gas: 4700000,
     },
   },
   gasReporter: {
