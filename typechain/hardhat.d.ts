@@ -21,6 +21,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.VRFConsumerBaseV2__factory>;
     getContractFactory(
+      name: "BaseRelayRecipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseRelayRecipient__factory>;
+    getContractFactory(
+      name: "IRelayRecipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IRelayRecipient__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -55,6 +63,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.VRFConsumerBaseV2>;
+    getContractAt(
+      name: "BaseRelayRecipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseRelayRecipient>;
+    getContractAt(
+      name: "IRelayRecipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IRelayRecipient>;
     getContractAt(
       name: "ERC20",
       address: string,

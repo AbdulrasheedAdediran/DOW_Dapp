@@ -1,15 +1,15 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const Greeter = await ethers.getContractAt("DOW",'0xc462348dE60ACC0e4109B693C2CbD588DBAc307d');
-  // const greeter = await Greeter.deploy('0x73fDB6c756fEF146972eeB277373b1638cc6d215');
+  const Greeter = await ethers.getContractFactory("DOW");
+  const greeter = await Greeter.deploy('0x73fDB6c756fEF146972eeB277373b1638cc6d215');
 
-  // await greeter.deployed();
+  await greeter.deployed();
   // await Greeter.claimFreeTokens()
   // console.log(await Greeter.balanceOf('0x30f9A9C1aA282508901b606DEA2D887D4dD072e8'))
-  console.log(await (await Greeter.startGame()).wait())
+  // console.log(await (await Greeter.startGame()).wait())
 
-  // console.log("DOW deployed to:", greeter.address);
+  console.log("DOW deployed to:", greeter.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -3,6 +3,8 @@
 /* eslint-disable */
 export type { VRFCoordinatorV2Interface } from "./VRFCoordinatorV2Interface";
 export type { VRFConsumerBaseV2 } from "./VRFConsumerBaseV2";
+export type { BaseRelayRecipient } from "./BaseRelayRecipient";
+export type { IRelayRecipient } from "./IRelayRecipient";
 export type { ERC20 } from "./ERC20";
 export type { IERC20Metadata } from "./IERC20Metadata";
 export type { IERC20 } from "./IERC20";
@@ -12,6 +14,8 @@ export type { VRFv2Consumer } from "./VRFv2Consumer";
 
 export { VRFCoordinatorV2Interface__factory } from "./factories/VRFCoordinatorV2Interface__factory";
 export { VRFConsumerBaseV2__factory } from "./factories/VRFConsumerBaseV2__factory";
+export { BaseRelayRecipient__factory } from "./factories/BaseRelayRecipient__factory";
+export { IRelayRecipient__factory } from "./factories/IRelayRecipient__factory";
 export { ERC20__factory } from "./factories/ERC20__factory";
 export { IERC20Metadata__factory } from "./factories/IERC20Metadata__factory";
 export { IERC20__factory } from "./factories/IERC20__factory";

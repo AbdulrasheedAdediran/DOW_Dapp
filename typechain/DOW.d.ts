@@ -34,16 +34,20 @@ interface DOWInterface extends ethers.utils.Interface {
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "generateRandomNumber()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
+    "isTrustedForwarder(address)": FunctionFragment;
     "name()": FunctionFragment;
     "randNum()": FunctionFragment;
-    "setTNotoUseVRF()": FunctionFragment;
+    "setToNotUseVRF()": FunctionFragment;
     "setToUseVRF()": FunctionFragment;
+    "setTrustForwarder(address)": FunctionFragment;
     "startGame()": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferToCreator(uint256)": FunctionFragment;
+    "trustedForwarder()": FunctionFragment;
+    "versionRecipient()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -92,15 +96,23 @@ interface DOWInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "isTrustedForwarder",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "randNum", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "setTNotoUseVRF",
+    functionFragment: "setToNotUseVRF",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "setToUseVRF",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTrustForwarder",
+    values: [string]
   ): string;
   encodeFunctionData(functionFragment: "startGame", values?: undefined): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
@@ -119,6 +131,14 @@ interface DOWInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "transferToCreator",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "trustedForwarder",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "versionRecipient",
+    values?: undefined
   ): string;
 
   decodeFunctionResult(
@@ -158,14 +178,22 @@ interface DOWInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "isTrustedForwarder",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "randNum", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setTNotoUseVRF",
+    functionFragment: "setToNotUseVRF",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setToUseVRF",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTrustForwarder",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "startGame", data: BytesLike): Result;
@@ -181,6 +209,14 @@ interface DOWInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferToCreator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "trustedForwarder",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "versionRecipient",
     data: BytesLike
   ): Result;
 
@@ -343,15 +379,25 @@ export class DOW extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
     randNum(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    setTNotoUseVRF(
+    setToNotUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setToUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTrustForwarder(
+      _trustedForwarder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -380,6 +426,10 @@ export class DOW extends BaseContract {
       _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    trustedForwarder(overrides?: CallOverrides): Promise<[string]>;
+
+    versionRecipient(overrides?: CallOverrides): Promise<[string]>;
   };
 
   LeaderBoard(
@@ -456,15 +506,25 @@ export class DOW extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  isTrustedForwarder(
+    forwarder: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
   randNum(overrides?: CallOverrides): Promise<BigNumber>;
 
-  setTNotoUseVRF(
+  setToNotUseVRF(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setToUseVRF(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTrustForwarder(
+    _trustedForwarder: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -493,6 +553,10 @@ export class DOW extends BaseContract {
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  trustedForwarder(overrides?: CallOverrides): Promise<string>;
+
+  versionRecipient(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     LeaderBoard(
@@ -562,13 +626,23 @@ export class DOW extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
     randNum(overrides?: CallOverrides): Promise<BigNumber>;
 
-    setTNotoUseVRF(overrides?: CallOverrides): Promise<void>;
+    setToNotUseVRF(overrides?: CallOverrides): Promise<void>;
 
     setToUseVRF(overrides?: CallOverrides): Promise<void>;
+
+    setTrustForwarder(
+      _trustedForwarder: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     startGame(overrides?: CallOverrides): Promise<string[]>;
 
@@ -593,6 +667,10 @@ export class DOW extends BaseContract {
       _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    trustedForwarder(overrides?: CallOverrides): Promise<string>;
+
+    versionRecipient(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -699,15 +777,25 @@ export class DOW extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     randNum(overrides?: CallOverrides): Promise<BigNumber>;
 
-    setTNotoUseVRF(
+    setToNotUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setToUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTrustForwarder(
+      _trustedForwarder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -736,6 +824,10 @@ export class DOW extends BaseContract {
       _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    trustedForwarder(overrides?: CallOverrides): Promise<BigNumber>;
+
+    versionRecipient(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -797,15 +889,25 @@ export class DOW extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     randNum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    setTNotoUseVRF(
+    setToNotUseVRF(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setToUseVRF(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTrustForwarder(
+      _trustedForwarder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -834,5 +936,9 @@ export class DOW extends BaseContract {
       _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    trustedForwarder(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    versionRecipient(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
