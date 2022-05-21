@@ -289,8 +289,8 @@
       "artifacts": []
     },
     "/Users/user/Documents/DOW_Dapp/contracts/DOWcon.sol": {
-      "lastModificationDate": 1652994002981,
-      "contentHash": "787d834be068a3b39c1587655fb9ee31",
+      "lastModificationDate": 1653086042175,
+      "contentHash": "252c3271ab4964d2cb52feaf413102b2",
       "sourceName": "contracts/DOWcon.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -317,7 +317,6 @@
       },
       "imports": [
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "@opengsn/contracts/src/BaseRelayRecipient.sol",
         "./VRFv2Consumer.sol"
       ],
       "versionPragmas": [
@@ -328,8 +327,8 @@
       ]
     },
     "/Users/user/Documents/DOW_Dapp/contracts/Non_Vrf_Dow.sol": {
-      "lastModificationDate": 1652983293116,
-      "contentHash": "935cc21d711a062804fef4ad94b5dad7",
+      "lastModificationDate": 1653142599796,
+      "contentHash": "e760d66cb71a1eec025d8ae2df748f61",
       "sourceName": "contracts/Non_Vrf_Dow.sol",
       "solcConfig": {
         "version": "0.8.7",

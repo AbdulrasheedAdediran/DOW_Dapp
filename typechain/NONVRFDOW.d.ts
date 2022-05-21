@@ -177,7 +177,7 @@ interface NONVRFDOWInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "PlayerNumbers(bytes32[])": EventFragment;
+    "PlayerNumbers(uint256[])": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "compNumber(uint256[])": EventFragment;
   };
@@ -196,7 +196,9 @@ export type ApprovalEvent = TypedEvent<
   }
 >;
 
-export type PlayerNumbersEvent = TypedEvent<[string[]] & { compNum: string[] }>;
+export type PlayerNumbersEvent = TypedEvent<
+  [BigNumber[]] & { compNum: BigNumber[] }
+>;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
@@ -551,7 +553,7 @@ export class NONVRFDOW extends BaseContract {
 
     setToUseVRF(overrides?: CallOverrides): Promise<void>;
 
-    startGame(overrides?: CallOverrides): Promise<string[]>;
+    startGame(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -595,13 +597,13 @@ export class NONVRFDOW extends BaseContract {
       { owner: string; spender: string; value: BigNumber }
     >;
 
-    "PlayerNumbers(bytes32[])"(
+    "PlayerNumbers(uint256[])"(
       compNum?: null
-    ): TypedEventFilter<[string[]], { compNum: string[] }>;
+    ): TypedEventFilter<[BigNumber[]], { compNum: BigNumber[] }>;
 
     PlayerNumbers(
       compNum?: null
-    ): TypedEventFilter<[string[]], { compNum: string[] }>;
+    ): TypedEventFilter<[BigNumber[]], { compNum: BigNumber[] }>;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,

@@ -2,7 +2,9 @@ import { ethers } from "hardhat";
 
 async function main() {
   const Greeter = await ethers.getContractFactory("DOW");
-  const greeter = await Greeter.deploy('0x73fDB6c756fEF146972eeB277373b1638cc6d215');
+  const greeter = await Greeter.deploy(
+    "0x73fDB6c756fEF146972eeB277373b1638cc6d215"
+  );
 
   await greeter.deployed();
   // await Greeter.claimFreeTokens()

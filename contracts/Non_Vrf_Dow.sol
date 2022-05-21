@@ -30,7 +30,7 @@ contract NON_VRF_DOW is ERC20{
   mapping(address =>bool) claimTokens;
   mapping(address => mapping(uint=> bool)) playerPlaying;
   // --------------------------------Events --------------------------------
-  event PlayerNumbers (bytes32[] compNum);
+  event PlayerNumbers (uint256[] compNum);
   event compNumber (uint256[] compNumber);
 
   // --------------------------------Errors--------------------------------
@@ -99,7 +99,7 @@ contract NON_VRF_DOW is ERC20{
       setVRF = false;
   }
 
-  function startGame() external returns (bytes32[] memory playerNumbers){
+  function startGame() external returns (uint256[] memory playerNumbers){
     if(!playerAdded[msg.sender]) {
       playerAdded[msg.sender] = true;
       players.push(msg.sender);
@@ -107,14 +107,14 @@ contract NON_VRF_DOW is ERC20{
     Player storage o = PlayerStruct[msg.sender];
     if(balanceOf(msg.sender) < 5000000000000000000) revert InsufficientTokens();
     _burn(msg.sender, 5000000000000000000);
-    playerNumbers = new bytes32[](4);
+    playerNumbers = new uint256[](4);
       while (compNum.length < 4){
          nonVRFNumbers();
       }
-    playerNumbers[0] = keccak256(abi.encodePacked(uint256(compNum[0])));
-    playerNumbers[1] = keccak256(abi.encodePacked(uint256(compNum[1])));
-    playerNumbers[2] = keccak256(abi.encodePacked(uint256(compNum[2])));
-    playerNumbers[3] = keccak256(abi.encodePacked(uint256(compNum[3]))); 
+    playerNumbers[0] = uint256(compNum[0]);
+    playerNumbers[1] = uint256(compNum[1]);
+    playerNumbers[2] = uint256(compNum[2]);
+    playerNumbers[3] = uint256(compNum[3]); 
     clearArray();
     playerPlaying[msg.sender][o.gamesPlayed] = true;
     emit PlayerNumbers(playerNumbers);
